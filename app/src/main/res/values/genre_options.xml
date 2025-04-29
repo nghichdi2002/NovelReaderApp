@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre_options">
+        <item>Võ hiệp</item>
+        <item>Huyền Huyễn</item>
+        <item>Lãng mạn</item>
+        <item>Tiên Hiệp</item>
+        <item>Đô Thị</item>
+        <item>Hài hước</item>
+        <item>Tự do</item>
+    </string-array>
+</resources>

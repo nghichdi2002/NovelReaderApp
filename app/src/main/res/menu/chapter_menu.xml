@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_font_size"
+        android:title="Chỉnh kích cỡ chữ" />
+    <item
+        android:id="@+id/menu_brightness"
+        android:title="Chỉnh độ sáng" />
+    <item
+        android:id="@+id/menu_background_color"
+        android:title="Chỉnh màu nền" />
+    <item
+        android:id="@+id/menu_text_color"
+        android:title="Chỉnh màu chữ" />
+    <item
+        android:id="@+id/menu_font"
+        android:title="Chỉnh font chữ" />
+</menu>

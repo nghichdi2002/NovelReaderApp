@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="aqua">#00FFFF</color> <!-- Aqua color -->
+    <color name="aqua_light">#8BFFFF</color> <!-- A lighter shade of Aqua -->
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="blue">#2196F3</color>
+    <color name="purple_500">#a46ede</color>
+    <!-- Màu phân chia -->
+    <color name="dividerColor">#DADADA</color> <!-- Xám nhạt cho đường phân chia -->
+
+    <!-- Màu nền tổng thể -->
+    <color name="backgroundGray">#F5F5F5</color> <!-- Xám nhạt làm nền -->
+
+    <color name="primary">#6200EE</color>
+    <color name="primary_light">#BB86FC</color>
+    <color name="light_white">#D2D2D2</color>
+    <color name="card_1">#A3E4D7</color>
+    <color name="card_2">#F9E79F</color>
+    <color name="card_3">#D7BDE2</color>
+    <color name="card_4">#D2C3D8</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="light_gray">#D3D3D3</color>
+    <color name="text_primary">#212121</color>
+    <color name="background_color">#F5F5F5</color>
+
+    <color name="grey">#FF808080</color>
+
+    <color name="red">#FFFF0000</color>
+    <color name="green">#FF00FF00</color>
+    <color name="yellow">#FFFFEB3B</color>
+    <color name="orange">#FFFF7F50</color>
+    <color name="purple">#FF800080</color>
+    <color name="pink">#FFFFC0CB</color>
+    <color name="brown">#FF8B4513</color>
+    <color name="teal">#FF008080</color>
+    <color name="cyan">#FF00FFFF</color>
+    <color name="lime">#FF00FF00</color>
+    <color name="indigo">#FF4B0082</color>
+    <color name="violet">#FFEE82EE</color>
+    <color name="maroon">#FF800000</color>
+    <color name="olive">#FF808000</color>
+    <color name="silver">#FFC0C0C0</color>
+    <color name="gold">#FFFFD700</color>
+
+    <!-- Màu nền tổng thể -->
+    <color name="backgroundLight">#F5F5F5</color>
+
+
+    <!-- Màu sắc cho đường phân cách -->
+    <color name="colorDivider">#BDBDBD</color>
+
+    <!-- Màu nền cho các thẻ card hoặc item -->
+    <color name="backgroundCard">#FFFFFF</color>
+
+    <!-- Màu cho văn bản và icon nổi bật -->
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="fuchsia">#FFFF00FF</color>
+    <color name="navy">#FF000080</color>
+    <color name="gray">#FF808080</color>
+
+    <color name="text_color">#333333</color>
+    <color name="primary_color">#FF5722</color>
+    <color name="button_pressed_color">#E64A19</color>
+
+
+    <!-- Màu chính cho văn bản -->
+    <color name="primary_text_color">#212121</color>
+    <!-- Thêm các màu khác nếu cần -->
+    <color name="button_color">#3F51B5</color>
+    <color name="hint_color">#757575</color>
+
+
+    <color name="lightgray">#BCBABA</color>
+    <color name="secondary_text_color">#666666</color>
+    <color name="status_text_color">#FF5722</color>
+</resources>

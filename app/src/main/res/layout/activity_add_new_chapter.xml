@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".admin.AddNewChapter">
+
+    <!-- Toolbar với nút back -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp" />
+
+    <EditText
+        android:id="@+id/edt_chapter_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tiêu đề chương"
+        android:padding="12dp"
+        android:textColor="#3E2723"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/edt_chapter_content"
+        android:layout_width="match_parent"
+        android:layout_height="460dp"
+        android:layout_marginTop="12dp"
+        android:hint="Nội dung chương"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:padding="12dp"
+        android:textColor="#3E2723"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_add_chapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm chương"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="@color/purple_500"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:padding="12dp" />
+
+</LinearLayout>

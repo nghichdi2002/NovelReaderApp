@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".user_adapter.HomeFragment">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to NovelZ"
+        android:textSize="20sp"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Tìm kiếm truyện" />
+
+
+
+    <!-- ViewPager2 cho slidebar -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager_highlight"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:clipToPadding="false"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"
+        android:padding="8dp"
+        tools:listitem="@layout/item_slider_image"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <!-- RecyclerView để hiển thị danh sách truyện -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_home"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:elevation="4dp"
+        tools:listitem="@layout/item_story"/>
+
+</LinearLayout>
