@@ -1,16 +1,15 @@
 package com.namnh.novelreaderapp
 
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.namnh.novelreaderapp.databinding.ActivityMainBinding
-import com.namnh.novelreaderapp.user_adapter.AccountFragment
+import com.namnh.novelreaderapp.user.AccountFragment
 
-import com.namnh.novelreaderapp.user_adapter.HomeFragment
+import com.namnh.novelreaderapp.user.HomeFragment
+import com.namnh.novelreaderapp.user.SearchFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.nav_home -> fragment = HomeFragment()
-//                R.id.nav_theloai -> fragment = HistoryFragment()
+                R.id.nav_theloai -> fragment = SearchFragment()
                 R.id.nav_account -> fragment = AccountFragment()
             }
 

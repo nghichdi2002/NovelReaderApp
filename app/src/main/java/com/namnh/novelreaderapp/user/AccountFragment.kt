@@ -1,4 +1,4 @@
-package com.namnh.novelreaderapp.user_adapter
+package com.namnh.novelreaderapp.user
 
 import android.Manifest
 import android.app.Activity
@@ -24,10 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.namnh.novelreaderapp.Login
 import com.namnh.novelreaderapp.R
-import com.namnh.novelreaderapp.user.ChangePasswordActivity
 import com.namnh.novelreaderapp.databinding.FragmentAccountBinding
-import com.namnh.novelreaderapp.user.FavoriteStoriesActivity
-import com.namnh.novelreaderapp.user.HistoriesActivity
 import com.squareup.picasso.Picasso
 
 

@@ -1,4 +1,4 @@
-package com.namnh.novelreaderapp.user_adapter
+package com.namnh.novelreaderapp.user
 
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +19,8 @@ import com.google.firebase.ktx.Firebase
 import com.namnh.novelreaderapp.R
 import com.namnh.novelreaderapp.databinding.FragmentHomeBinding
 import com.namnh.novelreaderapp.item.Story
+import com.namnh.novelreaderapp.user_adapter.UserStoryAdapter
+import com.namnh.novelreaderapp.user_adapter.ViewPagerAdapter
 import java.util.Locale
 
 class HomeFragment : Fragment() {
