@@ -1,64 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     app:cardElevation="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    android:clickable="true"
+    android:focusable="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp">
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="8dp">
 
-        <!-- Image Cover -->
-        <ImageView
-            android:id="@+id/imageViewCover"
-            android:layout_width="80dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder" />
+<ImageView
+    android:id="@+id/imageViewCover"
+    android:layout_width="80dp"
+    android:layout_height="100dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_placeholder"
+    android:layout_alignParentStart="true"
+    android:layout_centerVertical="true" />
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/imageViewCover"
-            android:layout_marginStart="16dp"
-            android:text="Title"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textColor="@android:color/black"
-            android:maxLines="2"
-            android:ellipsize="end" />
 
-        <!-- Current Chapter -->
-        <TextView
-            android:id="@+id/textViewCurrentChapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/imageViewCover"
-            android:layout_below="@id/textViewTitle"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:text="Chapter đang đọc: N/A"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="@android:color/darker_gray" />
+<TextView
+    android:id="@+id/textViewTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toEndOf="@id/imageViewCover"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="8dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true"
+    android:layout_centerVertical="true"
+android:text="Tiêu đề truyện"
+android:textAppearance="?attr/textAppearanceHeadline6"
+android:textColor="@android:color/black"
+android:maxLines="2"
+android:ellipsize="end" />
 
-        <!-- Latest Chapter -->
-        <TextView
-            android:id="@+id/textViewLatestChapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/imageViewCover"
-            android:layout_below="@id/textViewCurrentChapter"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="16dp"
-            android:text="Chapter mới nhất: N/A"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="@android:color/darker_gray" />
+</RelativeLayout>
 
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>

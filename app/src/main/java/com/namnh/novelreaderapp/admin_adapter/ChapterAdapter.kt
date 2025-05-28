@@ -51,8 +51,6 @@ class ChapterAdapter(private val chapterList: List<Chapter>, private val context
 
         fun bind(chapter: Chapter) {
             binding.txtChapterTitle.text = chapter.title
-            binding.txtChapterAuthor.text = chapter.author
-            binding.txtChapterGenre.text = chapter.genre
         }
     }
 }

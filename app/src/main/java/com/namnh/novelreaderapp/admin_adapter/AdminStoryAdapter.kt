@@ -9,7 +9,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.namnh.novelreaderapp.admin.AdminStoryDetail
-import com.namnh.novelreaderapp.databinding.ItemStoryBinding
+import com.namnh.novelreaderapp.databinding.ItemStoryAdminBinding
 import com.namnh.novelreaderapp.item.Story
 
 class AdminStoryAdapter(private var storyList: List<Story>, private val context: Context) :
@@ -17,7 +17,7 @@ class AdminStoryAdapter(private var storyList: List<Story>, private val context:
 
     private var filteredStoryList: List<Story> = ArrayList(storyList)
 
-    inner class StoryViewHolder(private val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class StoryViewHolder(private val binding: ItemStoryAdminBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvTitle: TextView = binding.txtStoryTitle
         val tvAuthor: TextView = binding.txtStoryAuthor
         val tvGenres: TextView = binding.txtStoryGenres
@@ -42,7 +42,7 @@ class AdminStoryAdapter(private var storyList: List<Story>, private val context:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
-        val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStoryAdminBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoryViewHolder(binding)
     }
 

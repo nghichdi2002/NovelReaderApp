@@ -1,8 +1,8 @@
 package com.namnh.novelreaderapp
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -10,17 +10,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.namnh.novelreaderapp.databinding.ActivityLoginBinding
 import com.namnh.novelreaderapp.admin.AdminActivity
-import androidx.core.content.edit
+import com.namnh.novelreaderapp.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDatabase: DatabaseReference
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var sharedPreferences: SharedPreferences
-    private val PREFS_NAME = "LoginPrefs"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +26,7 @@ class Login : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().reference
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+
 
         binding.apply {
             signUpRedirect.setOnClickListener {
@@ -39,38 +36,6 @@ class Login : AppCompatActivity() {
 
             signInButton.setOnClickListener {
                 loginUser()
-            }
-        }
-    }
-
-    private fun autoLogin(uid: String) {
-        mDatabase.child("users").child(uid).get().addOnCompleteListener { databaseTask ->
-            if (databaseTask.isSuccessful) {
-                val snapshot: DataSnapshot = databaseTask.result
-                if (snapshot.exists()) {
-                    val role = snapshot.child("role").getValue(String::class.java)
-                    val isActive = snapshot.child("isActive").getValue(Boolean::class.java)
-
-                    if (isActive == null || isActive) {
-                        val intent: Intent
-                        if ("admin" == role) {
-                            Toast.makeText(
-                                this@Login,
-                                "Đăng nhập với quyền quản trị!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            intent = Intent(this@Login, AdminActivity::class.java)
-                        } else {
-                            Toast.makeText(this@Login, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
-                                .show()
-                            intent = Intent(this@Login, MainActivity::class.java)
-                        }
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this@Login, "Không tìm thấy thông tin người dùng!", Toast.LENGTH_SHORT).show()
-                    }
-                }
             }
         }
     }
@@ -108,16 +73,6 @@ class Login : AppCompatActivity() {
                                         startActivity(intent)
                                         finish()
 
-                                        sharedPreferences.edit {
-                                            putString("uid", user.uid)
-                                            putBoolean(
-                                                "remember",
-                                                binding.rememberMeCheckbox.isChecked
-                                            )
-                                        }
-                                    } else {
-                                        Toast.makeText(this@Login, "Tài khoản của bạn đã bị vô hiệu hóa.", Toast.LENGTH_SHORT).show()
-                                        mAuth.signOut()
                                     }
                                 } else {
                                     Toast.makeText(this@Login, "Không tìm thấy thông tin người dùng!", Toast.LENGTH_SHORT).show()

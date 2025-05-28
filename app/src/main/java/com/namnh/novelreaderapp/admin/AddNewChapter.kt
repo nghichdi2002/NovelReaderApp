@@ -2,6 +2,7 @@ package com.namnh.novelreaderapp.admin
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -19,6 +20,8 @@ class AddNewChapter : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = ActivityAddNewChapterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

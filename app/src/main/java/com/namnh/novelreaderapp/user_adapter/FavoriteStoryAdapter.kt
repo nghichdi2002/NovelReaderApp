@@ -10,7 +10,30 @@ import com.namnh.novelreaderapp.item.FavoriteStory
 import com.namnh.novelreaderapp.user.ChapterDetailActivity
 import com.squareup.picasso.Picasso
 
-class FavoriteStoryAdapter(private val favoriteStories: List<FavoriteStory>, private val context: Context) : RecyclerView.Adapter<FavoriteStoryAdapter.StoryViewHolder>() {
+class FavoriteStoryAdapter(
+    private val favoriteStories: List<FavoriteStory>,
+    private val context: Context,
+    // Thêm lambda function xử lý click item
+    private val onItemClick: (FavoriteStory) -> Unit // Hàm này nhận vào FavoriteStory object
+) : RecyclerView.Adapter<FavoriteStoryAdapter.StoryViewHolder>() {
+
+    // ViewHolder giữ các View bằng View Binding
+    inner class StoryViewHolder(val binding: ItemFavoriteStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            // *** THÊM LISTENER CHO TOÀN BỘ ITEM VIEW ***
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                // Kiểm tra vị trí hợp lệ
+                if (position != RecyclerView.NO_POSITION) {
+                    // Lấy đối tượng FavoriteStory tương ứng
+                    val clickedItem = favoriteStories[position]
+                    // Gọi lambda function được truyền từ Activity, truyền đối tượng FavoriteStory
+                    onItemClick.invoke(clickedItem)
+                }
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
         val binding = ItemFavoriteStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoryViewHolder(binding)
@@ -19,36 +42,21 @@ class FavoriteStoryAdapter(private val favoriteStories: List<FavoriteStory>, pri
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         val favoriteStory = favoriteStories[position]
 
-        holder.binding.textViewTitle.text = favoriteStory.title
+        // Lấy đối tượng Story đầy đủ từ FavoriteStory
+        val story = favoriteStory.story
 
-        favoriteStory.currentChapter?.let {
-            holder.binding.textViewCurrentChapter.text = "Chapter đang đọc: ${it + 1}"
-        } ?: run {
-            holder.binding.textViewCurrentChapter.text = "Chapter đang đọc: N/A"
-        }
+        // Hiển thị tiêu đề và ảnh bìa từ đối tượng Story (hoặc FavoriteStory nếu cần)
+        // Sử dụng story?. để truy cập an toàn
+        holder.binding.textViewTitle.text = story?.title ?: favoriteStory.title ?: "N/A" // Ưu tiên lấy từ story, nếu không có thì lấy từ favoriteStory, cuối cùng là N/A
+        Picasso.get().load(story?.imageUrl ?: favoriteStory.imageUrl) // Ưu tiên lấy từ story, nếu không có thì lấy từ favoriteStory
+            .placeholder(com.namnh.novelreaderapp.R.drawable.ic_placeholder) // Thay bằng placeholder của bạn
+            .error(com.namnh.novelreaderapp.R.drawable.ic_placeholder) // Thay bằng error image của bạn
+            .into(holder.binding.imageViewCover)
 
-        favoriteStory.latestChapter?.let {
-            holder.binding.textViewLatestChapter.text = "Chapter mới nhất: $it"
-        } ?: run {
-            holder.binding.textViewLatestChapter.text = "Chapter mới nhất: N/A"
-        }
 
-        Picasso.get().load(favoriteStory.imageUrl).into(holder.binding.imageViewCover)
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, ChapterDetailActivity::class.java)
-            intent.putExtra("story", favoriteStory.story)
-
-            val chapterIndex = favoriteStory.currentChapter?.let { Math.max(it.toInt() - 1, 0) } ?: 0
-            intent.putExtra("chapterIndex", chapterIndex)
-
-            context.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int {
         return favoriteStories.size
     }
-
-    inner class StoryViewHolder(val binding: ItemFavoriteStoryBinding) : RecyclerView.ViewHolder(binding.root)
 }

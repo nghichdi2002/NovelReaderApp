@@ -24,7 +24,6 @@ class AdminPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR
         return when (position) {
             0 -> "Quản lý truyện"
             1 -> "Quản lý chương"
-            2 -> "Quản lý tài khoản"
             else -> null
         }
     }

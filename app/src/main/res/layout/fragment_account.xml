@@ -1,103 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".user.AccountFragment">
 
+
+    <View
+        android:id="@+id/background_header"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:background="@drawable/flowerbg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Icon Cài đặt -->
     <ImageView
         android:id="@+id/iv_settings"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
         android:src="@drawable/ic_menu"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:padding="8dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white"
+        tools:ignore="ContentDescription" />
 
-    <!-- Ảnh đại diện tròn -->
-    <ImageView
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_profile"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:background="@android:color/white"
+        android:padding="4dp"
         android:scaleType="centerCrop"
         android:src="@drawable/default_avatar"
-        android:layout_below="@id/iv_settings"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true"/>
+        app:shapeAppearanceOverlay="@style/circle"
+        app:layout_constraintBottom_toBottomOf="@id/background_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/background_header"
+        tools:ignore="ContentDescription"/>
 
-    <!-- Tên người dùng -->
+
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Username"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:layout_below="@id/iv_profile"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile" />
 
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tv_username"
-        android:layout_marginTop="8dp"
-        android:background="@color/dividerColor" />
 
-    <!-- Email người dùng -->
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Email"
-        android:textColor="@color/textColorSecondary"
-        android:layout_below="@id/tv_username"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true" />
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_username" />
 
-    <!-- Divider -->
+
     <View
-        android:layout_width="match_parent"
+        android:id="@+id/divider_profile"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_below="@id/tv_email"
-        android:layout_marginTop="8dp"
-        android:background="@color/dividerColor" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/system_neutral2_300"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
 
-
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tv_email"
-        android:layout_marginTop="8dp"
-        android:background="@color/dividerColor" />
-
-    <!-- Nút truyện yêu thích -->
     <Button
         android:id="@+id/btn_favorite_stories"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Truyện yêu thích"
-        android:textSize="16sp"
-        android:textColor="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:padding="12dp"
-        android:layout_below="@id/tv_email"
-        android:layout_marginTop="80dp" />
+        android:text="Truyện yêu thích"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_profile" />
+
+
+
+
 
     <Button
         android:id="@+id/btn_reading_history"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Lịch sử đọc"
-        android:textSize="16sp"
-        android:textColor="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:padding="12dp"
-        android:layout_below="@id/btn_favorite_stories"
-        android:layout_marginTop="20dp" />
+        android:text="Lịch sử đọc"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_favorite_stories" />
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

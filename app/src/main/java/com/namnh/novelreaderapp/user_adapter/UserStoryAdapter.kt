@@ -26,6 +26,7 @@ class UserStoryAdapter(private var storyList: List<Story>, private val context: 
         holder.tvTitle.text = story.title
         holder.tvAuthor.text = "Tác giả: ${story.author}"
         holder.tvGenres.text = "Thể loại: ${story.genre}"
+        holder.tvViews.text = "Lượt xem: ${story.viewCount}"
 
         // Use Picasso to load cover image from URL
         Picasso.get()
@@ -56,5 +57,6 @@ class UserStoryAdapter(private var storyList: List<Story>, private val context: 
         var tvTitle = binding.tvStoryTitle
         var tvAuthor = binding.tvStoryAuthor
         var tvGenres = binding.tvStoryGenre
+        var tvViews = binding.tvStoryViews
     }
 }

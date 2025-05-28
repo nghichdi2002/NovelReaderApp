@@ -88,7 +88,7 @@ class ManageStoriesFragment : Fragment() {
     }
 
     private fun openAddStoryDialog() {
-        val intent = Intent(activity, ThemTruyen::class.java)
+        val intent = Intent(activity, AddStory::class.java)
         startActivity(intent)
     }
 

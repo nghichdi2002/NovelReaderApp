@@ -1,15 +1,16 @@
 package com.namnh.novelreaderapp.item
 
 import com.google.firebase.database.Exclude
+import java.io.Serializable
 
 
 data class Comment (
-    var id: String? = null,
-    var storyId: String? = null,
-    var userId: String? = null,
-    var content: String? = null,
+    var id: String= "",
+    var storyId: String= "",
+    var userId: String= "",
+    var content: String= "",
     var timestamp: Long = 0,
-    @get:Exclude var username: String? = null,
+    var parentId: String= "",
+    @get:Exclude var username: String= "",
     @get:Exclude var avatarUrl: String? = null
-
-)
+) : Serializable

@@ -3,9 +3,6 @@
         android:id="@+id/menu_font_size"
         android:title="Chỉnh kích cỡ chữ" />
     <item
-        android:id="@+id/menu_brightness"
-        android:title="Chỉnh độ sáng" />
-    <item
         android:id="@+id/menu_background_color"
         android:title="Chỉnh màu nền" />
     <item

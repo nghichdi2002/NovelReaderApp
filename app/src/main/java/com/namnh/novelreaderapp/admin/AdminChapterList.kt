@@ -3,6 +3,7 @@ package com.namnh.novelreaderapp.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.namnh.novelreaderapp.R
 import com.namnh.novelreaderapp.admin_adapter.ChapterAdapter
 import com.namnh.novelreaderapp.databinding.ActivityAdminChapterListBinding
 import com.namnh.novelreaderapp.item.Chapter
@@ -25,19 +25,19 @@ class AdminChapterList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = ActivityAdminChapterListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Danh sách chương"
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
 
         recyclerViewChapters = binding.recyclerViewChapters
         recyclerViewChapters.layoutManager = LinearLayoutManager(this)
 
-        // Thêm khoảng cách giữa các item
-        val spacing = resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
-//        recyclerViewChapters.addItemDecoration(SpaceItemDecoration(spacing))
 
         chapterAdapter = ChapterAdapter(chapterList, this)
         recyclerViewChapters.adapter = chapterAdapter
@@ -50,7 +50,7 @@ class AdminChapterList : AppCompatActivity() {
         chapterAdapter.setOnItemClickListener(object : ChapterAdapter.OnItemClickListener {
             override fun onItemClick(chapter: Chapter, position: Int) {
                 val intent = Intent(this@AdminChapterList, EditChapterActivity::class.java).apply {
-                    putExtra("chapter_id", chapter.uid)
+                    putExtra("chapter_id", chapter.chapterId)
                     putExtra("story_id", storyUid)
                     putExtra("chapter_title", chapter.title)
                     putExtra("chapter_content", chapter.content)
@@ -78,10 +78,10 @@ class AdminChapterList : AppCompatActivity() {
                     chapterList.clear()
                     for (chapterSnapshot in dataSnapshot.children) {
                         val chapter = chapterSnapshot.getValue(Chapter::class.java)
-                        val chapterKey = chapterSnapshot.key
+//                        val chapterKey = chapterSnapshot.key
 
-                        if (chapter != null && chapterKey != null) {
-                            chapter.uid = chapterKey
+                        if (chapter != null) { //&& chapterKey != null) {
+//                            chapter.uid = chapterKey
                             chapterList.add(chapter)
                         }
                     }

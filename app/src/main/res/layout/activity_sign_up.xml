@@ -30,7 +30,7 @@
         android:text="Đăng ký"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="41dp"
+        android:textSize="41sp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"/>
 
@@ -102,7 +102,7 @@
 
     <Button
         android:id="@+id/sign_up_button"
-        android:layout_width="270dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"

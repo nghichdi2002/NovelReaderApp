@@ -6,6 +6,7 @@
     android:padding="12dp"
     android:background="@android:color/white"
     android:elevation="4dp"
+    app:cardCornerRadius="10dp"
     android:layout_margin="6dp">
 
     <LinearLayout
@@ -19,9 +20,10 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:orientation="vertical"
+
             android:padding="6dp">
 
-            <!-- Ảnh bìa của truyện -->
+
             <ImageView
                 android:id="@+id/iv_story_cover"
                 android:layout_width="120dp"
@@ -32,7 +34,7 @@
                 android:elevation="3dp"
                 android:scaleType="centerCrop" />
 
-            <!-- Thông tin truyện -->
+
             <TextView
                 android:id="@+id/tv_story_title"
                 android:layout_width="wrap_content"
@@ -41,7 +43,7 @@
                 android:ellipsize="end"
                 android:layout_gravity="center"
                 android:maxLines="2"
-                android:text="Tên truyện 1"
+                android:text="Tên truyện "
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -55,7 +57,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="Tác giả 1"
+                android:text="Tác giả "
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
@@ -66,8 +68,19 @@
                 android:ellipsize="end"
                 android:layout_gravity="center"
                 android:maxLines="1"
-                android:text="Thể loại 1"
+                android:text="Thể loại "
                 android:textColor="@android:color/holo_blue_dark"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_story_views"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:text="Lượt xem "
+                android:textColor="@android:color/darker_gray"
                 android:textSize="13sp" />
         </LinearLayout>
 

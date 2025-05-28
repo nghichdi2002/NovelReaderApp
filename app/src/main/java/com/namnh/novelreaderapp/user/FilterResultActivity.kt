@@ -3,8 +3,8 @@ package com.namnh.novelreaderapp.user
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,16 +26,21 @@ class FilterResultActivity : AppCompatActivity() {
         binding = ActivityFilterResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Khởi tạo Toolbar
-        val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Hiển thị nút quay lại
-        toolbar.setNavigationOnClickListener {
-            onBackPressed() // Xử lý sự kiện click vào nút quay lại
-        }
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         // Nhận thể loại từ Intent
         genre = intent.getStringExtra("genre") ?: ""
+
+        // Thiết lập cho nút Back mới
+        binding.ivBack.setOnClickListener {
+            onBackPressed() // Xử lý sự kiện click vào nút quay lại
+        }
+
+        // Đặt tiêu đề cho TextView mới
+        binding.tvCustomTitle.text = "Thể loại: $genre"
+
+
 
         // Khởi tạo RecyclerView và Adapter
         storyAdapter = UserStoryAdapter(storyList, this) // Truyền context vào adapter
@@ -45,8 +50,6 @@ class FilterResultActivity : AppCompatActivity() {
         // Lấy và lọc truyện từ Firebase
         loadAndFilterStories(genre)
 
-        // Đặt tiêu đề cho Toolbar
-        supportActionBar?.title = "Truyện thể loại: $genre" // Đặt tiêu đề là thể loại đã chọn
     }
 
     private fun loadAndFilterStories(genre: String) {
@@ -67,15 +70,6 @@ class FilterResultActivity : AppCompatActivity() {
                 }
                 // Cập nhật danh sách truyện trong adapter
                 storyAdapter.updateList(storyList)
-
-                // Hiển thị/ẩn thông báo khi không có kết quả
-                if (storyList.isEmpty()) {
-                    binding.tvNoResults.visibility = View.VISIBLE
-                    binding.rvFilteredStories.visibility = View.GONE
-                } else {
-                    binding.tvNoResults.visibility = View.GONE
-                    binding.rvFilteredStories.visibility = View.VISIBLE
-                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

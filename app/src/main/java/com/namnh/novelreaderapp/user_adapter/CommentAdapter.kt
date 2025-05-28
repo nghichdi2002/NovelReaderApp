@@ -15,39 +15,46 @@ import java.util.Locale
 
 class CommentAdapter(
     private val commentList: List<Comment>,
-    private val context: Context
+    private val replyCountMap: Map<String, Int>, // key: commentId, value: số reply
+    private val showReplyButton: Boolean = true,
+    private val onReplyClick: (Comment) -> Unit
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CommentViewHolder(binding.root)
+        return CommentViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = commentList[position]
+        with(holder.binding) {
+            tvCommentUsername.text = comment.username
+            tvCommentContent.text = comment.content
 
-        // Hiển thị tên người dùng và nội dung bình luận
-        holder.binding.tvCommentUsername.text = comment.username
-        holder.binding.tvCommentContent.text = comment.content
+            Picasso.get().load(comment.avatarUrl)
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_error)
+                .into(ivCommentAvatar)
 
-        // Tải ảnh đại diện của người dùng
-        Picasso.get().load(comment.avatarUrl)
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_error)
-            .into(holder.binding.ivCommentAvatar)
+            val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            tvCommentTime.text = dateFormat.format(Date(comment.timestamp))
 
-        // Hiển thị thời gian bình luận dưới dạng "month day, year"
-        val timestamp = comment.timestamp
-        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        val formattedDate = dateFormat.format(Date(timestamp))
-        holder.binding.tvCommentTime.text = formattedDate
+            if (showReplyButton && comment.parentId.isNullOrEmpty()) {
+                // Lấy số lượng trả lời từ map, nếu không có thì là 0
+                val replyCount = replyCountMap[comment.id] ?: 0
+                tvReply.text = if (replyCount > 0) "Trả lời ($replyCount)" else "Trả lời"
+                tvReply.visibility = View.VISIBLE
+                tvReply.setOnClickListener {
+                    onReplyClick(comment)
+                }
+            } else {
+                tvReply.visibility = View.GONE
+            }
+
+        }
     }
 
-    override fun getItemCount(): Int {
-        return commentList.size
-    }
+    override fun getItemCount(): Int = commentList.size
 
-    inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = ItemCommentBinding.bind(itemView)
-    }
+    inner class CommentViewHolder(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root)
 }

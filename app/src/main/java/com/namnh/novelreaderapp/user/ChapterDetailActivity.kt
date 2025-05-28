@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -19,8 +20,15 @@ import com.namnh.novelreaderapp.databinding.ActivityChapterDetailBinding
 import com.namnh.novelreaderapp.item.Chapter
 import com.namnh.novelreaderapp.item.Story
 import androidx.core.content.edit
+import androidx.core.content.res.ResourcesCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
+import androidx.core.graphics.toColorInt
 
 
+@Suppress("DEPRECATION")
 class ChapterDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChapterDetailBinding
     private lateinit var userRef: DatabaseReference
@@ -36,13 +44,17 @@ class ChapterDetailActivity : AppCompatActivity() {
         private const val KEY_BG_COLOR = "bg_color"
         private const val KEY_TEXT_COLOR = "text_color"
         private const val KEY_FONT = "font"
-        private const val KEY_BRIGHTNESS = "brightness"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
         binding = ActivityChapterDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
         // Các phần khởi tạo dữ liệu và sự kiện
         story = intent.getSerializableExtra("story") as? Story ?: run {
@@ -61,10 +73,6 @@ class ChapterDetailActivity : AppCompatActivity() {
                 .child(userId)
                 .child("reading_progress")
                 .child(story.id)
-        } else {
-            Toast.makeText(this, "Vui lòng đăng nhập để lưu tiến trình đọc.", Toast.LENGTH_SHORT).show()
-            finish()
-            return
         }
 
         chapterList.addAll(story.chapters.values)
@@ -72,17 +80,20 @@ class ChapterDetailActivity : AppCompatActivity() {
         loadChapter(currentChapterIndex)
         updateChapterNavigation()
 
-        // **Cập nhật reading_progress ngay khi mở chapter đầu tiên**
-        updateReadingProgress(currentChapterIndex, 0)
+        // Cập nhật reading_progress ngay khi mở chapter đầu tiên**
+        updateReadingProgress(currentChapterIndex)
 
         // Khôi phục các thiết lập cá nhân
-        restoreSettings()
+        loadUserSettings()
+
+        // Tăng số lượt xem cho truyện khi chapter được mở***
+        increaseStoryViewCount(story.id)
 
         binding.ivPreviousChapter.setOnClickListener {
             if (currentChapterIndex > 0) {
                 currentChapterIndex--
                 loadChapter(currentChapterIndex)
-                saveReadingProgress(currentChapterIndex, 0)
+                saveReadingProgress(currentChapterIndex)
             }
         }
 
@@ -90,7 +101,7 @@ class ChapterDetailActivity : AppCompatActivity() {
             if (currentChapterIndex < chapterList.size - 1) {
                 currentChapterIndex++
                 loadChapter(currentChapterIndex)
-                saveReadingProgress(currentChapterIndex, 0)
+                saveReadingProgress(currentChapterIndex)
             }
         }
 
@@ -126,10 +137,6 @@ class ChapterDetailActivity : AppCompatActivity() {
                     changeFontSize()
                     true
                 }
-                R.id.menu_brightness -> {
-                    adjustBrightness()
-                    true
-                }
                 R.id.menu_background_color -> {
                     changeBackgroundColor()
                     true
@@ -149,18 +156,16 @@ class ChapterDetailActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
-    private fun updateReadingProgress(chapterIndex: Int, lastPosition: Int) {
-        userRef?.apply {
+    private fun updateReadingProgress(chapterIndex: Int) {
+        userRef.apply {
             child("last_chapter_read").setValue(chapterIndex)
-            child("last_position").setValue(lastPosition)
-        } ?: Log.e("ChapterDetailActivity", "userRef is null. Không thể lưu tiến trình đọc.")
+        }
     }
 
-    private fun saveReadingProgress(chapterIndex: Int, lastPosition: Int) {
-        userRef?.apply {
+    private fun saveReadingProgress(chapterIndex: Int) {
+        userRef.apply {
             child("last_chapter_read").setValue(chapterIndex)
-            child("last_position").setValue(lastPosition)
-        } ?: Log.e("ChapterDetailActivity", "userRef is null. Không thể lưu tiến trình đọc.")
+        }
     }
 
     // 1. Change Font Size dialog
@@ -223,8 +228,8 @@ class ChapterDetailActivity : AppCompatActivity() {
         val colorValues = arrayOf(
             Color.WHITE,
             Color.BLACK,
-            Color.parseColor("#388E3C"), // Green
-            Color.parseColor("#8D5524")  // Brown
+            "#388E3C".toColorInt(), // Green
+            "#8D5524".toColorInt()  // Brown
         )
 
         val builder = AlertDialog.Builder(this)
@@ -236,51 +241,26 @@ class ChapterDetailActivity : AppCompatActivity() {
         builder.show()
     }
 
-    // 4. Adjust Brightness dialog
-    private fun adjustBrightness() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Điều chỉnh độ sáng")
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_brightness, null)
-        val seekBar = dialogView.findViewById<SeekBar>(R.id.seekBarBrightness)
-        seekBar.max = 100
-        val lp = window.attributes
-        seekBar.progress = ((lp.screenBrightness.takeIf { it >= 0 } ?: 1.0f) * 100).toInt()
-
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val brightness = progress / 100f
-                val params = window.attributes
-                params.screenBrightness = brightness
-                window.attributes = params
-                saveBrightness(brightness)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        builder.setView(dialogView)
-        builder.setPositiveButton("OK", null)
-        builder.setNegativeButton("Hủy", null)
-        builder.show()
-    }
-
-    // 5. Change Font dialog
+    //Change Font dialog
     private fun changeFont() {
         val fonts = arrayOf("Noto Serif", "Roboto", "Comfortaa")
-        val fontFiles = arrayOf(
-            "font/noto_serif.ttf",
-            "font/roboto_regular.ttf",
-            "font/comfortaa_regular.ttf"
+        val fontIds = arrayOf(
+            R.font.noto_serif,
+            R.font.roboto_regular,
+            R.font.comfortaa_regular
         )
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Chọn font chữ")
         builder.setItems(fonts) { _, which ->
             try {
-                val typeface = Typeface.createFromAsset(assets, fontFiles[which])
-                binding.tvChapterContent.typeface = typeface
-                saveFont(fontFiles[which])
+                val typeface = ResourcesCompat.getFont(this, fontIds[which])
+                if (typeface != null) {
+                    binding.tvChapterContent.typeface = typeface
+                    saveFont(fonts[which]) // Lưu tên font, không phải đường dẫn
+                } else {
+                    Toast.makeText(this, "Không thể tải font", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
                 Toast.makeText(this, "Không thể đổi font: ${e.message}", Toast.LENGTH_SHORT).show()
             }
@@ -292,30 +272,25 @@ class ChapterDetailActivity : AppCompatActivity() {
 
     private fun saveFontSize(size: Float) {
         getSharedPreferences(PREF_NAME, MODE_PRIVATE)
-            .edit() { putFloat(KEY_FONT_SIZE, size) }
+            .edit { putFloat(KEY_FONT_SIZE, size) }
     }
 
     private fun saveBgColor(color: Int) {
         getSharedPreferences(PREF_NAME, MODE_PRIVATE)
-            .edit() { putInt(KEY_BG_COLOR, color) }
+            .edit { putInt(KEY_BG_COLOR, color) }
     }
 
     private fun saveTextColor(color: Int) {
         getSharedPreferences(PREF_NAME, MODE_PRIVATE)
-            .edit() { putInt(KEY_TEXT_COLOR, color) }
+            .edit { putInt(KEY_TEXT_COLOR, color) }
     }
 
-    private fun saveFont(fontFile: String) {
+    private fun saveFont(fontName: String) {
         getSharedPreferences(PREF_NAME, MODE_PRIVATE)
-            .edit() { putString(KEY_FONT, fontFile) }
+            .edit { putString(KEY_FONT, fontName) }
     }
 
-    private fun saveBrightness(brightness: Float) {
-        getSharedPreferences(PREF_NAME, MODE_PRIVATE)
-            .edit() { putFloat(KEY_BRIGHTNESS, brightness) }
-    }
-
-    private fun restoreSettings() {
+    private fun loadUserSettings() {
         val prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
 
         // Font Size
@@ -331,18 +306,54 @@ class ChapterDetailActivity : AppCompatActivity() {
         binding.tvChapterContent.setTextColor(textColor)
 
         // Font
-        val fontFile = prefs.getString(KEY_FONT, "fonts/noto_serif.ttf")
+        val fontName = prefs.getString(KEY_FONT, "Noto Serif")
         try {
-            val typeface = Typeface.createFromAsset(assets, fontFile!!)
-            binding.tvChapterContent.typeface = typeface
-        } catch (_: Exception) {}
-
-        // Brightness
-        val brightness = prefs.getFloat(KEY_BRIGHTNESS, -1f)
-        if (brightness in 0.0f..1.0f) {
-            val params = window.attributes
-            params.screenBrightness = brightness
-            window.attributes = params
+            val fontId = when (fontName) {
+                "Noto Serif" -> R.font.noto_serif
+                "Roboto" -> R.font.roboto_regular
+                "Comfortaa" -> R.font.comfortaa_regular
+                else -> R.font.noto_serif
+            }
+            val typeface = ResourcesCompat.getFont(this, fontId)
+            if (typeface != null) {
+                binding.tvChapterContent.typeface = typeface
+            }
+        } catch (_: Exception) {
+            Log.e("ChapterDetailActivity", "Error loading font")
         }
+
+    }
+
+    // Hàm tăng số lượt xem cho Story
+    private fun increaseStoryViewCount(storyId: String) {
+        val storyRef = FirebaseDatabase.getInstance().getReference("stories").child(storyId)
+
+        storyRef.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                val currentStory = mutableData.getValue(Story::class.java)
+                if (currentStory == null) {
+                    return Transaction.abort()
+                }
+
+                currentStory.viewCount = currentStory.viewCount + 1
+
+                mutableData.value = currentStory
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(
+                databaseError: DatabaseError?,
+                committed: Boolean,
+                dataSnapshot: DataSnapshot?
+            ) {
+                if (databaseError != null) {
+                    Log.e("ChapterDetailActivity", "Firebase transaction failed for story viewCount.", databaseError.toException())
+                } else if (committed) {
+                    Log.d("ChapterDetailActivity", "Story viewCount incremented successfully.")
+                } else {
+                    Log.d("ChapterDetailActivity", "Story viewCount transaction not committed.")
+                }
+            }
+        })
     }
 }

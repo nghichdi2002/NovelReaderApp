@@ -11,7 +11,11 @@ import com.namnh.novelreaderapp.item.History
 import com.namnh.novelreaderapp.user.ChapterDetailActivity
 import com.squareup.picasso.Picasso
 
-class StoryAdapter(private val histories: List<History>, private val context: Context) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
+class HistoriesAdapter(private val histories: MutableList<History>,
+                       private val context: Context,
+                       private val onItemDeleteClick: (History) -> Unit
+) : RecyclerView.Adapter<HistoriesAdapter.StoryViewHolder>() {
+
     inner class StoryViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
@@ -25,13 +29,23 @@ class StoryAdapter(private val histories: List<History>, private val context: Co
                     context.startActivity(intent)
                 }
             }
+
+            // Listener cho nút Xóa mới
+            binding.buttonDelete.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    // Gọi lambda callback khi nút xóa được bấm
+                    val historyToDelete = histories[position]
+                    onItemDeleteClick(historyToDelete) // Truyền đối tượng History để xử lý xóa
+                }
+            }
         }
 
         fun bind(history: History) {
             binding.apply {
                 textViewTitle.text = history.title
                 textViewCurrentChapter.text = "Chapter đang đọc: ${history.currentChapter?.plus(1) ?: "N/A"}"
-                textViewLatestChapter.text = "Chapter mới nhất: ${history.latestChapter ?: "N/A"}"
+//                textViewLatestChapter.text = "Chapter mới nhất: ${history.latestChapter ?: "N/A"}"
                 Picasso.get().load(history.imageUrl).into(imageViewCover)
             }
         }
@@ -51,5 +65,18 @@ class StoryAdapter(private val histories: List<History>, private val context: Co
     override fun getItemCount(): Int {
         Log.d("StoryAdapter", "getItemCount: ${histories.size}")
         return histories.size
+    }
+
+    // Hàm giúp cập nhật dữ liệu trong adapter và thông báo thay đổi
+    fun removeHistory(history: History) {
+        val position = histories.indexOf(history)
+        if (position != -1) {
+            histories.removeAt(position)
+            notifyItemRemoved(position)
+            // Cần thêm logic xóa khỏi cơ sở dữ liệu (Firebase, Room,...) ở đây hoặc trong Activity/Fragment
+            Log.d("HistoriesAdapter", "Removed item at position $position")
+        } else {
+            Log.w("HistoriesAdapter", "Attempted to remove item not in list")
+        }
     }
 }

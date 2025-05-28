@@ -8,12 +8,6 @@
     android:background="@drawable/bg_1"
     tools:context=".Login">
 
-    <!-- Hình ảnh logo -->
-
-    <!-- Trường nhập Username -->
-
-    <!-- Container cho Password và biểu tượng mắt -->
-
     <ImageView
         android:id="@+id/logo_image"
         app:srcCompat="@drawable/logo"
@@ -46,7 +40,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/edit_text_login"
-        android:drawableLeft="@drawable/ic_user"
+        android:drawableStart="@drawable/ic_user"
         android:drawablePadding="10dp"
         android:inputType="text"
         android:hint="Email..."
@@ -63,7 +57,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edit_text_login"
-        android:drawableLeft="@drawable/ic_password"
+        android:drawableStart="@drawable/ic_password"
         android:drawablePadding="10dp"
         android:hint="Password..."
         android:inputType="textPassword"
@@ -72,19 +66,6 @@
         app:layout_constraintTop_toBottomOf="@id/input_username"
         tools:layout_editor_absoluteX="20dp" />
 
-    <ImageButton
-        android:id="@+id/toggle_password_visibility"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="9dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Toggle password visibility"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/input_pass"
-        app:layout_constraintEnd_toEndOf="@+id/input_pass"
-        app:layout_constraintTop_toTopOf="@+id/input_pass"
-        app:srcCompat="@drawable/ic_visibility_off" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -96,9 +77,6 @@
 
     </RelativeLayout>
 
-    <!-- Nút Sign in -->
-
-    <!-- Checkbox "Nhớ đăng nhập" -->
 
 
     <Button
@@ -106,27 +84,13 @@
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@color/purple_500"
+
         android:text="Đăng nhập"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_pass" />
-
-    <CheckBox
-        android:id="@+id/remember_me_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:minHeight="48dp"
-        android:text="Lưu tài khoản"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-        app:layout_constraintStart_toStartOf="parent"
-        />
 
 
     <TextView
@@ -140,22 +104,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/remember_me_checkbox"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
         app:layout_constraintVertical_bias="0.15" />
 
-    <TextView
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sign_in_button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:text="Forgot your password?"
-        android:textColor="#673AB7"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_redirect" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

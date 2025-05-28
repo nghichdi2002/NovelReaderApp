@@ -18,6 +18,7 @@ import com.namnh.novelreaderapp.R
 import com.namnh.novelreaderapp.admin_adapter.AdminPagerAdapter
 import com.namnh.novelreaderapp.databinding.ActivityAdminBinding
 
+@Suppress("DEPRECATION")
 class AdminActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminBinding
@@ -36,6 +37,7 @@ class AdminActivity : AppCompatActivity() {
         // Thiết lập Toolbar
         val toolbar: Toolbar = binding.adminToolbar
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "Quản lý Truyện"
 
         // Thiết lập TabLayout và ViewPager
         tabLayout = binding.adminTabLayout
@@ -63,10 +65,6 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val preferences: SharedPreferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = preferences.edit()
-        editor.clear()  // Xóa tất cả dữ liệu đã lưu
-        editor.apply()
 
         FirebaseAuth.getInstance().signOut()  // Đăng xuất khỏi Firebase
 

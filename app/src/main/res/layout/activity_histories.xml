@@ -6,41 +6,36 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLight"
+    android:fitsSystemWindows="true"
     tools:context=".user.HistoriesActivity">
 
-    <ImageView
-        android:id="@+id/imageViewBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_back"
-        android:contentDescription="Back"
-        android:layout_gravity="start"
-        android:padding="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless" />
-
-    <!-- Tiêu đề của Activity với thêm khoảng cách và màu sắc -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lịch Sử Đọc Gần Đây"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="12dp"
-        android:letterSpacing="0.02"
-        android:fontFamily="sans-serif-medium" />
-
-    <!-- Đường phân cách giữa tiêu đề và danh sách -->
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorDivider"
-        android:layout_marginBottom="8dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <!-- RecyclerView để hiển thị danh sách truyện yêu thích với khoảng cách -->
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Lịch sử đọc"
+            android:textSize="24sp"
+            android:layout_marginRight="48dp"
+            android:textStyle="bold">
+
+        </TextView>
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
@@ -50,7 +45,6 @@
         android:layout_marginBottom="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        android:paddingBottom="8dp"
-        android:background="@color/backgroundCard" />
+        android:paddingBottom="8dp" />
 
 </LinearLayout>

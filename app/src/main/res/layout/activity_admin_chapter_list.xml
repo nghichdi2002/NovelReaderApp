@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF8A65"
+        android:background="@color/purple_500"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:elevation="4dp" />
 
@@ -29,9 +29,9 @@
             android:layout_height="0dp"
             android:layout_marginTop="66dp"
             android:layout_weight="1"
-            android:padding="16dp"
             android:background="#FFFFFF"
-            android:elevation="2dp" />
+            android:elevation="2dp"
+            android:padding="16dp" />
 
         <!-- Nút thêm chương mới nằm ở dưới cùng -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -40,8 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_add"
-            android:contentDescription="Thêm chương mới" />
+            android:contentDescription="Thêm chương mới"
+            android:src="@drawable/ic_add" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

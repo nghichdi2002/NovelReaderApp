@@ -3,17 +3,14 @@ package com.namnh.novelreaderapp.admin
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
+
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+
 import com.google.firebase.database.FirebaseDatabase
-import com.namnh.novelreaderapp.R
 import com.namnh.novelreaderapp.databinding.ActivityChapterEditBinding
 import com.namnh.novelreaderapp.item.Chapter
 
@@ -29,6 +26,8 @@ class EditChapterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         binding = ActivityChapterEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

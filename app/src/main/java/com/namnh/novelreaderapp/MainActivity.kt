@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Hide status bar
+        // An status bar
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         navigationView = binding.bottomNavigation
@@ -38,13 +38,13 @@ class MainActivity : AppCompatActivity() {
         }
         navigationView.selectedItemId = R.id.nav_home
 
-        // Handle bottom navigation item selection
-        navigationView.setOnNavigationItemSelectedListener { item ->
+        // Xu ly bottom nav
+        navigationView.setOnItemSelectedListener { menuItem ->
             var fragment: Fragment? = null
 
-            when (item.itemId) {
+            when (menuItem.itemId) {
                 R.id.nav_home -> fragment = HomeFragment()
-                R.id.nav_theloai -> fragment = SearchFragment()
+                R.id.nav_search -> fragment = SearchFragment()
                 R.id.nav_account -> fragment = AccountFragment()
             }
 

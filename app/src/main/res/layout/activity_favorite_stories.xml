@@ -8,24 +8,32 @@
     android:fitsSystemWindows="true"
     tools:context=".user.FavoriteStoriesActivity">
 
-    <ImageView
-        android:id="@+id/imageViewBack"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_back"
-        android:contentDescription="Back"
-        android:layout_gravity="start" />
+        android:orientation="horizontal">
 
-    <!-- Tiêu đề của Activity -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Truyện Yêu Thích"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="8dp"/>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Truyện yêu thích"
+            android:textSize="24sp"
+            android:layout_marginRight="48dp"
+            android:textStyle="bold">
+
+        </TextView>
+    </LinearLayout>
+
 
     <!-- RecyclerView để hiển thị danh sách truyện yêu thích -->
     <androidx.recyclerview.widget.RecyclerView
@@ -34,5 +42,17 @@
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/tv_no_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chưa có truyện yêu thích"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </LinearLayout>

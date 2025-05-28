@@ -5,8 +5,8 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
@@ -14,15 +14,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.namnh.novelreaderapp.R
-import com.namnh.novelreaderapp.databinding.ActivityThemTruyenBinding
+import com.namnh.novelreaderapp.databinding.ActivityAddStoryBinding
 import com.namnh.novelreaderapp.item.Chapter
 import com.namnh.novelreaderapp.item.Story
 
-class ThemTruyen : AppCompatActivity() {
+class AddStory : AppCompatActivity() {
 
-    private lateinit var linearGenres: Spinner
-
-    private lateinit var binding: ActivityThemTruyenBinding
+    private lateinit var binding: ActivityAddStoryBinding
     private lateinit var dbRef: DatabaseReference
     private lateinit var storageRef: StorageReference
     private var imageUri: Uri? = null
@@ -34,7 +32,9 @@ class ThemTruyen : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityThemTruyenBinding.inflate(layoutInflater)
+        // hide status bar
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         dbRef = FirebaseDatabase.getInstance().getReference("stories")
@@ -47,7 +47,7 @@ class ThemTruyen : AppCompatActivity() {
 
         val genreOptions = resources.getStringArray(R.array.genre_options)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genreOptions)
-        linearGenres.adapter = adapter
+        binding.spinnerGenre.adapter = adapter
 
         binding.btnSelectImage.setOnClickListener { openFileChooser() }
         binding.btnSaveStory.setOnClickListener { saveStory() }
